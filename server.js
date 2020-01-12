@@ -9,9 +9,9 @@ const webpackHotMiddleware = require("webpack-hot-middleware"); // HMR热更新�
 const webpackConfig = require("./webpack.dev.config.js"); // webpack开发环境的配置文件
 
 
-const app = express(); // 实例化express服务
+const app = express();
 const DIST_DIR = webpackConfig.output.path; // webpack配置中设置的文件输出路径，所有文件存放在内存中
-const PORT = 8888; // 服务启动端口号
+const PORT = 3000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
