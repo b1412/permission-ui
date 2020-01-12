@@ -18,7 +18,7 @@ import Header from "../a_component/Header";
 import Menu from "../a_component/Menu";
 import Footer from "../a_component/Footer";
 import Bread from "../a_component/Bread";
-import Loading from "../a_component/loading";
+import Loading from "../a_component/Loading";
 import "./BasicLayout.scss";
 
 // ==================
