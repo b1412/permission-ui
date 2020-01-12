@@ -15,7 +15,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 // 所需的所有组件
 // ==================
 import { Layout } from "antd";
-import Loading from "../a_component/loading";
+import Loading from "../a_component/Loading";
 import Footer from "../a_component/Footer";
 import "./UserLayout.scss";
 
