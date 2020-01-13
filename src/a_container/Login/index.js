@@ -180,7 +180,7 @@ export default class LoginContainer extends React.Component {
           <Form>
             <div className="title">
               <img src={LogoImg} alt="logo" />
-              <span>React-Admin</span>
+              <span>Permission</span>
             </div>
             <div>
               <FormItem>
