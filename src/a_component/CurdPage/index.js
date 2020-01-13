@@ -324,8 +324,6 @@ export default class CrudPage extends React.Component {
                 </span>
               </Popconfirm>
             );
-          } else {
-            console.log("unknown type");
           }
         });
 

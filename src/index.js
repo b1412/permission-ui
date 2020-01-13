@@ -1,4 +1,3 @@
-/** APP入口 **/
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 import React from "react";
@@ -8,7 +7,6 @@ import store from "./store";
 import * as serviceWorker from "./serviceWorker";
 import Router from "./router";
 
-/** 公共样式 **/
 import "./styles/css.css";
 import "./styles/scss.scss";
 

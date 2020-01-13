@@ -11,13 +11,11 @@ script:
 services:
   - docker
 after_success:
-  - docker build -t $REPO/$IMAGE_NAME .
-  - echo "$TOKEN" | docker login  docker.pkg.github.com --username $DOCKER_USERNAME --password-stdin
-  - docker tag $IMAGE_NAME:latest $REPO/$IMAGE_NAME:$TRAVIS_BUILD_NUMBER
-  - docker push $REPO/$IMAGE_NAME:latest
-  - docker push $REPO/$IMAGE_NAME:$TRAVIS_BUILD_NUMBER
+  - docker build -t docker.pkg.github.com/b1412/permission-ui/$IMAGE_NAME .
+  - echo "$TOKEN" | docker login  docker.pkg.github.com --username b1412 --password-stdin
+  - docker tag $IMAGE_NAME:latest docker.pkg.github.com/b1412/permission-ui/$IMAGE_NAME:$TRAVIS_BUILD_NUMBER
+  - docker push docker.pkg.github.com/b1412/permission-ui/$IMAGE_NAME:latest
+  - docker push docker.pkg.github.com/b1412/permission-ui/$IMAGE_NAME:$TRAVIS_BUILD_NUMBER
 env:
   global:
     - IMAGE_NAME=permission-ui
-    - REPO=docker.pkg.github.com/b1412/permission-ui
-    - DOCKER_USERNAME=b1412
