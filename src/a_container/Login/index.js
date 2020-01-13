@@ -97,7 +97,8 @@ export default class LoginContainer extends React.Component {
                 "userLoginInfo",
                 JSON.stringify({
                   username: values.username,
-                  password: tools.compile(values.password) // 密码简单加密一下再存到localStorage
+                  password: tools.compile(values.password),
+                  token:values.token
                 })
               ); // 保存用户名和密码
             } else {
@@ -121,33 +122,21 @@ export default class LoginContainer extends React.Component {
   }
 
   async loginIn(username, password) {
-    let userInfo = null;
-    let roles = [];
-    let menus = [];
-    let powers = [];
+    let userInfo;
+    let roles;
+    let menus;
+    let powers;
     const res1 = await this.props.actions.onLogin({ username, password });
-    if (!res1 || res1.status !== 200) {
-      return res1;
-    }
-
     userInfo = res1.data;
-
+    sessionStorage.setItem("token",userInfo.access_token);
     const role = await this.props.actions.getRoleById({ id: 1 });
-    if (!role || role.status !== 200) {
-      return role;
-    }
-
     roles = [role.data];
-
-    // 查询所有菜单信息
     const res3 = await this.props.actions.getMenus();
     menus = res3.data;
     powers = role.data.powers.reduce((a, b) => [...a, ...b.powers], []);
-    console.log(powers);
     return { status: 200, data: { userInfo, roles, menus, powers } };
   }
 
-  // 记住密码按钮点击
   onRemember(e) {
     this.setState({
       rememberPassword: e.target.checked

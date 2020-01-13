@@ -47,7 +47,7 @@ export const getRoles = (params = {}) => async () => {
   }
 };
 
-export const getRoleById = (params = {}) => async dispatch => {
+export const getRoleById = (params = {}) => async () => {
   try {
     return await Fetchapi.get(
       "v1/role/" +

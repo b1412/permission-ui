@@ -135,12 +135,7 @@ export default class AppContainer extends React.Component {
     return true;
   }
 
-  /** 切换路由时触发 **/
   onEnter(Component, props) {
-    /**
-     * 检查当前用户是否有该路由页面的权限
-     * 没有则跳转至401页
-     * **/
     if (this.checkRouterPower(props.location.pathname)) {
       return <Component {...props} />;
     }
@@ -148,8 +143,6 @@ export default class AppContainer extends React.Component {
   }
 
   render() {
-    const u = this.props.userinfo;
-
     return (
       <Layout className="page-basic">
         <Menu
