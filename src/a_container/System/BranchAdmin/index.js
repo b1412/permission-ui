@@ -21,6 +21,6 @@ export default class BranchAdminContainer extends React.Component {
       columnActions: []
     };
 
-    return <CrudPage options={options}/>;
+    return <CrudPage options={options} />;
   }
 }

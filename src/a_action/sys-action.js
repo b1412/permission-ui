@@ -2,7 +2,7 @@
  * 系统模块action
  * **/
 import Fetchapi from "../util/fetch-api"; // 自己写的工具函数，封装了请求数据的通用接口
-import {message} from "antd";
+import { message } from "antd";
 
 /**
  * 获取所有菜单
@@ -127,8 +127,8 @@ export const deleteEntity = function(entity) {
 
 export const createQueryString = params => {
   return Object.keys(params)
-      .map(key => key + "=" + params[key])
-      .join("&");
+    .map(key => key + "=" + params[key])
+    .join("&");
 };
 
 export const callAPI = (method, url, params = {}) => async () => {

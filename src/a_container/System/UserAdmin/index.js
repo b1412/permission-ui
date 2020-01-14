@@ -75,7 +75,6 @@ export default class UserAdminContainer extends React.Component {
         }
       ]
     };
-
-    return <CrudPage options={options}/>;
+    return <CrudPage options={options} />;
   }
 }

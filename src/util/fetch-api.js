@@ -4,11 +4,11 @@ import axios from "axios";
 export default class ApiService {
   static http(method, url, bodyObj = {}) {
     const headers = {
-      "Content-Type": "application/json;charset=utf-8",
+      "Content-Type": "application/json;charset=utf-8"
     };
     const token = sessionStorage.getItem("token");
-    if(token){
-      headers.Authorization =  "Bearer " + token
+    if (token) {
+      headers.Authorization = "Bearer " + token;
     }
     return axios({
       url: `${apiBaseUrl}/${url}`,
@@ -24,7 +24,7 @@ export default class ApiService {
   }
 
   static post(url, bodyObj = {}) {
-     return this.http("post", url, bodyObj);
+    return this.http("post", url, bodyObj);
   }
 
   static put(url, bodyObj = {}) {

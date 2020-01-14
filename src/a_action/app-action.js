@@ -6,8 +6,6 @@
 import Fetchapi from "../util/fetch-api";
 import { message } from "antd";
 
-
-
 export const onLogin = (params = {}) => async () => {
   try {
     return await Fetchapi.post(
@@ -21,7 +19,6 @@ export const onLogin = (params = {}) => async () => {
     message.error("network error, please try again");
   }
 };
-
 
 export const onLogout = (params = {}) => async dispatch => {
   try {
@@ -51,4 +48,3 @@ export const setUserInfo = (params = {}) => async dispatch => {
     message.error("network error, please try again");
   }
 };
-

@@ -74,7 +74,7 @@ export default class CrudPage extends React.Component {
     this.onGetData();
   }
 
-  componentWillReceiveProps(nextProp,nextContext){
+  componentWillReceiveProps(nextProp, nextContext) {
     this.setState(nextProp.options);
     this.onGetData();
   }
@@ -214,7 +214,6 @@ export default class CrudPage extends React.Component {
 
   onHttp(method, url) {
     this.setState({ loading: true });
-
     this.props.actions
       .callAPI(method, url)
       .then(res => {

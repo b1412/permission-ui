@@ -5,12 +5,13 @@ import P from "prop-types";
 import _ from "lodash";
 import "./index.scss";
 import CrudPage from "../../../a_component/CurdPage";
-import { Form, message, Tree } from "antd";
+import { Form, Tree } from "antd";
 import {
   callAPI,
   getMenus,
   getPowerDataByMenuId
 } from "../../../a_action/sys-action";
+
 const { TreeNode } = Tree;
 const FormItem = Form.Item;
 @connect(
@@ -52,11 +53,7 @@ export default class PowerAdminContainer extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.menus.length === 0) {
-      this.getMenuData();
-    } else {
-      this.makeSourceData(this.props.menus);
-    }
+    this.makeSourceData(this.props.menus);
     this.getData();
   }
 
@@ -95,20 +92,16 @@ export default class PowerAdminContainer extends React.Component {
         });
       });
   }
-
-  /** 获取所有菜单数据 **/
-  getMenuData() {
-    this.props.actions.getMenus();
-  }
-
   /** 处理原始数据，将原始数据处理为层级关系 **/
   makeSourceData(data) {
     const d = _.cloneDeep(data);
-    // 按照sort排序
+    //
     d.sort((a, b) => {
       return a.sorts - b.sorts;
     });
     const sourceData = this.dataToJson(null, d) || [];
+    console.log("source data");
+    console.log(sourceData);
     this.setState({
       sourceData
     });
@@ -163,55 +156,6 @@ export default class PowerAdminContainer extends React.Component {
         data: []
       });
     }
-  };
-
-  /** 新增&修改 提交 **/
-  onOk = () => {
-    const { form } = this.props;
-    form.validateFields(
-      ["authKey", "authUrls", "display", "httpMethod"],
-      (err, values) => {
-        if (err) {
-          return;
-        }
-        values.entity = this.state.treeSelect.title;
-        if (this.state.operateType === "add") {
-          this.props.actions
-            .callAPI("post", "v1/permission", values)
-            .then(res => {
-              if (res.status === 200) {
-                message.success("添加成功");
-                this.getData(this.state.treeSelect.id);
-                this.onClose();
-              } else {
-                message.error("添加失败");
-              }
-              this.setState({ modalLoading: false });
-            })
-            .catch(() => {
-              this.setState({ modalLoading: false });
-            });
-        } else {
-          this.props.actions
-            .callAPI("put", "v1/permission/" + this.state.nowData.id, values)
-            .then(res => {
-              if (res.status === 200) {
-                message.success("修改成功");
-                this.getData(this.state.treeSelect.id);
-                this.onClose();
-              } else {
-                message.error("修改失败");
-              }
-              this.setState({ modalLoading: false });
-            })
-            .catch(() => {
-              this.setState({ modalLoading: false });
-            });
-        }
-
-        this.setState({ modalLoading: true });
-      }
-    );
   };
 
   render() {

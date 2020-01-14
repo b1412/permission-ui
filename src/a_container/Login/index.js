@@ -98,7 +98,7 @@ export default class LoginContainer extends React.Component {
                 JSON.stringify({
                   username: values.username,
                   password: tools.compile(values.password),
-                  token:values.token
+                  token: values.token
                 })
               ); // 保存用户名和密码
             } else {
@@ -128,7 +128,7 @@ export default class LoginContainer extends React.Component {
     let powers;
     const res1 = await this.props.actions.onLogin({ username, password });
     userInfo = res1.data;
-    sessionStorage.setItem("token",userInfo.access_token);
+    sessionStorage.setItem("token", userInfo.access_token);
     const role = await this.props.actions.getRoleById({ id: 1 });
     roles = [role.data];
     const res3 = await this.props.actions.getMenus();
