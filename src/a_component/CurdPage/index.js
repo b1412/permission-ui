@@ -42,7 +42,8 @@ export default class CrudPage extends React.Component {
     options: P.object,
     actions: P.any,
     powers: P.array,
-    form: P.any
+    form: P.any,
+    children: P.any
   };
 
   constructor(props) {
@@ -323,6 +324,8 @@ export default class CrudPage extends React.Component {
                 </span>
               </Popconfirm>
             );
+          }else if (item.type === "customer"){
+            controls.push(item.com(record));
           }
         });
 
@@ -472,6 +475,7 @@ export default class CrudPage extends React.Component {
             ))}
           </Form>
         </Modal>
+        {this.props.children}
       </div>
     );
   }
