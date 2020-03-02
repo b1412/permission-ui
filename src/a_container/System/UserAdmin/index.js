@@ -16,7 +16,7 @@ export default class UserAdminContainer extends React.Component {
           dataIndex: "username",
           search: true,
           type: "text",
-          rules: [{ required: true, whitespace: true }, { max: 12 }]
+          rules: [{ required: true, whitespace: true }, { max: 32 }]
         },
         {
           title: "Password",

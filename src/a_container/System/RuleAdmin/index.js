@@ -15,7 +15,7 @@ export default class RuleAdminContainer extends React.Component {
           dataIndex: "name",
           search: true,
           type: "text",
-          rules: [{ required: true, whitespace: true }, { max: 12 }]
+          rules: [{ required: true, whitespace: true }, { max: 32 }]
         }
       ],
       columnActions: []

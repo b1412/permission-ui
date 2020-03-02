@@ -16,7 +16,6 @@ const { TreeNode } = Tree;
 const FormItem = Form.Item;
 @connect(
   state => ({
-    menus: state.sys.menus,
     powers: state.app.powers
   }),
   dispatch => ({
@@ -53,12 +52,18 @@ export default class PowerAdminContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.makeSourceData(this.props.menus);
-    this.getData();
+    const { actions } = this.props;
+    actions.callAPI("get", "v1/menu").then(res => {
+      console.log(res.data);
+      this.setState({
+        menus: res.data
+      });
+      this.makeSourceData(this.state.menus);
+    });
   }
 
   UNSAFE_componentWillReceiveProps(nextP) {
-    if (nextP.menus !== this.props.menus) {
+    if (nextP.menus !== this.state.menus) {
       this.makeSourceData(nextP.menus);
     }
   }
@@ -167,27 +172,29 @@ export default class PowerAdminContainer extends React.Component {
           dataIndex: "entity",
           search: true,
           type: "text",
-          rules: [{ required: true, whitespace: true }, { max: 12 }]
+          rules: [{ required: true, whitespace: true }, { max: 32 }]
         },
         {
           title: "Display",
           dataIndex: "display",
           search: true,
           type: "text",
-          rules: [{ required: true, whitespace: true }, { max: 12 }]
+          rules: [{ required: true, whitespace: true }, { max: 32 }]
         },
         {
           title: "AuthUris",
           dataIndex: "authUris",
           search: true,
           type: "text",
-          rules: [{ required: true, whitespace: true }, { max: 12 }]
+          rules: [{ required: true, whitespace: true }, { max: 32 }]
         }
       ],
       columnActions: []
     };
     const entity = this.state.treeSelect.title;
-    options.queryParams = `f_entity=${entity}&f_entity_op==`;
+    if (entity) {
+      options.queryParams = `f_entity=${entity}&f_entity_op==`;
+    }
     return (
       <div className="page-power-admin flex-row">
         <div className="l">
