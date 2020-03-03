@@ -6,11 +6,7 @@ import _ from "lodash";
 import "./index.scss";
 import CrudPage from "../../../a_component/CurdPage";
 import { Form, Tree } from "antd";
-import {
-  callAPI,
-  getMenus,
-  getPowerDataByMenuId
-} from "../../../a_action/sys-action";
+import { callAPI, getMenus } from "../../../a_action/sys-action";
 
 const { TreeNode } = Tree;
 const FormItem = Form.Item;
@@ -19,10 +15,7 @@ const FormItem = Form.Item;
     powers: state.app.powers
   }),
   dispatch => ({
-    actions: bindActionCreators(
-      { getMenus, getPowerDataByMenuId, callAPI },
-      dispatch
-    )
+    actions: bindActionCreators({ getMenus, callAPI }, dispatch)
   })
 )
 @Form.create()
@@ -149,9 +142,7 @@ export default class PowerAdminContainer extends React.Component {
   /** 点击树目录时触发 **/
   onTreeSelect = (keys, e) => {
     if (e.selected) {
-      // 选中时才触发
       const p = e.node.props;
-      this.getData(p.eventKey);
       this.setState({
         treeSelect: { title: p.title, id: p.eventKey }
       });

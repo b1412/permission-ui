@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import "./index.scss";
 import {
   callAPI,
+  getMenus,
   getRoleById,
   createQueryString
 } from "../../../a_action/sys-action";
@@ -11,7 +12,6 @@ import CrudPage from "../../../a_component/CurdPage";
 import P from "prop-types";
 import { Form, Icon, message, Tooltip } from "antd";
 import TreeTable from "../../../a_component/TreeChose/PowerTreeTable";
-import Fetchapi from "../../../util/fetch-api";
 
 @connect(
   state => ({}),
@@ -19,6 +19,7 @@ import Fetchapi from "../../../util/fetch-api";
     actions: bindActionCreators(
       {
         callAPI,
+        getMenus,
         getRoleById,
         createQueryString
       },
@@ -31,6 +32,7 @@ export default class RoleAdminContainer extends React.Component {
     actions: P.any,
     powerTreeData: P.array
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -52,40 +54,14 @@ export default class RoleAdminContainer extends React.Component {
     };
   }
 
-  componentDidMount() {
-    console.log("did");
-    this.onGetPowerTreeData();
-  }
-
   onGetPowerTreeData() {
     const { actions } = this.props;
-
-    /**
-     *   val m = mutableMapOf<String, Any>()
-     m["id"] = role.id!!
-     m["name"] = role.name
-     val groupBy = role.rolePermissions.groupBy { it.permission!!.entity }
-     val powers = groupBy
-     .map { entry ->
-                    val menus = mutableMapOf(
-                            // "menuId" to menuIds[entry.key],
-                            "powers" to entry.value.map { it.permission!!.authKey }
-                    )
-
-                    menus
-                }
-     m["powers"] = powers
-     m
-     */
-    actions
-      .callAPI("get", "v1/role?embedded=rolePermissions,rolePermissions.permission")
-      .then(res => {
-        console.log(res.data);
-        data.map
-        this.setState({
-          powerTreeData: res.data
-        });
+    actions.getMenus().then(res => {
+      console.log(res.data);
+      this.setState({
+        powerTreeData: res.data
       });
+    });
   }
 
   onMenuTreeClose() {
@@ -110,12 +86,13 @@ export default class RoleAdminContainer extends React.Component {
   onAllotPowerClick(record) {
     console.log(record.id);
     const { actions } = this.props;
-    actions.callAPI("get", "v1/menu").then(res => {
+    actions.getMenus().then(res => {
       record = res.data[0];
       console.log(record);
       const menus = [25, 139];
       const powers = [39725];
       this.setState({
+        powerTreeData: res.data,
         nowData: record,
         powerTreeShow: true,
         powerTreeDefault: { menus, powers }

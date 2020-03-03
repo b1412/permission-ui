@@ -22,19 +22,6 @@ export const getMenus = (params = {}) => async dispatch => {
   }
 };
 
-/**
- * 根据菜单ID查询其下的权限数据
- * **/
-export const getPowerDataByMenuId = (params = {}) => async dispatch => {
-  try {
-    return await Fetchapi.get(
-      "v1/menu/permissions?menuId=" + params.menuId,
-      params
-    );
-  } catch (err) {
-    message.error("network error, please try again");
-  }
-};
 
 export const getRoles = (params = {}) => async () => {
   try {
