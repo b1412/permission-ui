@@ -9,7 +9,7 @@ import { message } from "antd";
  * **/
 export const getMenus = (params = {}) => async dispatch => {
   try {
-    const res = await Fetchapi.get("v1/menu", params);
+    const res = await Fetchapi.get("v1/permission/menu", params);
     if (res.status === 200) {
       await dispatch({
         type: "SYS.getMenus",

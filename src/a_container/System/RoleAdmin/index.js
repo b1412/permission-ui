@@ -2,11 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import "./index.scss";
-import { callAPI, createQueryString } from "../../../a_action/sys-action";
+import {
+  callAPI,
+  getRoleById,
+  createQueryString
+} from "../../../a_action/sys-action";
 import CrudPage from "../../../a_component/CurdPage";
 import P from "prop-types";
 import { Form, Icon, message, Tooltip } from "antd";
 import TreeTable from "../../../a_component/TreeChose/PowerTreeTable";
+import Fetchapi from "../../../util/fetch-api";
 
 @connect(
   state => ({}),
@@ -14,6 +19,7 @@ import TreeTable from "../../../a_component/TreeChose/PowerTreeTable";
     actions: bindActionCreators(
       {
         callAPI,
+        getRoleById,
         createQueryString
       },
       dispatch
@@ -53,12 +59,33 @@ export default class RoleAdminContainer extends React.Component {
 
   onGetPowerTreeData() {
     const { actions } = this.props;
-    actions.callAPI("get", "v1/menu").then(res => {
-      console.log(res.data);
-      this.setState({
-        powerTreeData: res.data
+
+    /**
+     *   val m = mutableMapOf<String, Any>()
+     m["id"] = role.id!!
+     m["name"] = role.name
+     val groupBy = role.rolePermissions.groupBy { it.permission!!.entity }
+     val powers = groupBy
+     .map { entry ->
+                    val menus = mutableMapOf(
+                            // "menuId" to menuIds[entry.key],
+                            "powers" to entry.value.map { it.permission!!.authKey }
+                    )
+
+                    menus
+                }
+     m["powers"] = powers
+     m
+     */
+    actions
+      .callAPI("get", "v1/role?embedded=rolePermissions,rolePermissions.permission")
+      .then(res => {
+        console.log(res.data);
+        data.map
+        this.setState({
+          powerTreeData: res.data
+        });
       });
-    });
   }
 
   onMenuTreeClose() {
@@ -81,12 +108,18 @@ export default class RoleAdminContainer extends React.Component {
 
   /** 分配权限按钮点击，权限控件出现 **/
   onAllotPowerClick(record) {
-    const menus = record.powers.map(item => item.menuId); // 需默认选中的菜单项ID
-    const powers = record.powers.reduce((v1, v2) => [...v1, ...v2.powers], []); // 需默认选中的权限ID
-    this.setState({
-      nowData: record,
-      powerTreeShow: true,
-      powerTreeDefault: { menus, powers }
+    console.log(record.id);
+    const { actions } = this.props;
+    actions.callAPI("get", "v1/menu").then(res => {
+      record = res.data[0];
+      console.log(record);
+      const menus = [25, 139];
+      const powers = [39725];
+      this.setState({
+        nowData: record,
+        powerTreeShow: true,
+        powerTreeDefault: { menus, powers }
+      });
     });
   }
 

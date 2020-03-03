@@ -53,7 +53,7 @@ export default class PowerAdminContainer extends React.Component {
 
   componentDidMount() {
     const { actions } = this.props;
-    actions.callAPI("get", "v1/menu").then(res => {
+    actions.getMenus().then(res => {
       console.log(res.data);
       this.setState({
         menus: res.data
