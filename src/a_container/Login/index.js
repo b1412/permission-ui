@@ -23,7 +23,7 @@ import LogoImg from "../../assets/logo.png";
 // ==================
 
 import { onLogin, setUserInfo } from "../../a_action/app-action";
-import { getRoleById, getMenus } from "../../a_action/sys-action";
+import { getRoleById, getMenus, callAPI } from "../../a_action/sys-action";
 // ==================
 // Definition
 // ==================
@@ -32,7 +32,7 @@ const FormItem = Form.Item;
   state => ({}),
   dispatch => ({
     actions: bindActionCreators(
-      { onLogin, getRoleById, setUserInfo, getMenus },
+      { onLogin, getRoleById, setUserInfo, getMenus, callAPI },
       dispatch
     )
   })
@@ -122,19 +122,20 @@ export default class LoginContainer extends React.Component {
   }
 
   async loginIn(username, password) {
-    let userInfo;
-    let roles;
-    let menus;
-    let powers;
     const res1 = await this.props.actions.onLogin({ username, password });
-    userInfo = res1.data;
+    let userInfo = res1.data;
     sessionStorage.setItem("token", userInfo.access_token);
-    const role = await this.props.actions.getRoleById({ id: 1 });
-    roles = [role.data];
+    const me = await this.props.actions.callAPI(
+      "get",
+      "v1/user/me?embedded=branch,role"
+    );
+    const role = await this.props.actions.getRoleById({ id: me.data.role.id });
     const res3 = await this.props.actions.getMenus();
-    menus = res3.data;
-    powers = role.data.powers.reduce((a, b) => [...a, ...b.powers], []);
-    return { status: 200, data: { userInfo, roles, menus, powers } };
+    let menus = res3.data;
+    let powers = role.data.rolePermissions
+      .map(it => it.permission.authKey)
+      .reduce((a, b) => [...a, b], []);
+    return { status: 200, data: { userInfo, role, menus, powers } };
   }
 
   onRemember(e) {

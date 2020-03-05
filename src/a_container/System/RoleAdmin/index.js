@@ -4,13 +4,13 @@ import { bindActionCreators } from "redux";
 import "./index.scss";
 import {
   callAPI,
+  createQueryString,
   getMenus,
-  getRoleById,
-  createQueryString
+  getRoleById
 } from "../../../a_action/sys-action";
 import CrudPage from "../../../a_component/CurdPage";
 import P from "prop-types";
-import { Form, Icon, message, Tooltip } from "antd";
+import { Icon, message, Tooltip } from "antd";
 import TreeTable from "../../../a_component/TreeChose/PowerTreeTable";
 
 @connect(
@@ -73,10 +73,44 @@ export default class RoleAdminContainer extends React.Component {
   // 菜单树确定 给角色分配菜单
   onMenuTreeOk(arr) {
     const params = {
-      id: this.state.nowData.id,
       menus: arr.menus,
       powers: arr.powers
     };
+    console.log(params);
+    let rolePermissions = arr.powers.map(it => {
+      return {
+        permission: { id: it },
+        rules: [
+          {
+            id: 1
+          }
+        ]
+      };
+    });
+
+    let role = {
+      rolePermissions: rolePermissions
+    };
+
+    this.props.actions
+      .callAPI("put", `v1/role/${this.state.nowData.id}`, role)
+      .then(res => {
+        if (res.status === 204) {
+          this.onGetData(this.state.pageNum, this.state.pageSize);
+          this.onMenuTreeClose();
+        } else {
+          message.error(res.message || "assign permission fail");
+        }
+        this.setState({
+          treeOnOkLoading: false
+        });
+      })
+      .catch(() => {
+        this.setState({
+          treeOnOkLoading: false
+        });
+      });
+    console.log(params);
     this.setState({
       treeOnOkLoading: true
     });
@@ -84,13 +118,11 @@ export default class RoleAdminContainer extends React.Component {
 
   /** 分配权限按钮点击，权限控件出现 **/
   onAllotPowerClick(record) {
-    console.log(record.id);
+    console.log(record);
     const { actions } = this.props;
     actions.getMenus().then(res => {
-      record = res.data[0];
-      console.log(record);
-      const menus = [25, 139];
-      const powers = [39725];
+      const menus = [];
+      const powers = [];
       this.setState({
         powerTreeData: res.data,
         nowData: record,

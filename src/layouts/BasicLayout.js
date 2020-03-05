@@ -104,7 +104,7 @@ export default class AppContainer extends React.Component {
   };
 
   /**
-   * 退出登录
+   * Logout
    * **/
   onLogout = () => {
     this.props.actions.onLogout().then(() => {

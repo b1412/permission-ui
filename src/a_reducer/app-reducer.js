@@ -29,7 +29,7 @@ const setUserInfo = (state, { payload }) => {
 
 const reducerFn = (state = initState, action) => {
   switch (action.type) {
-    case "APP.onLogout": // 退出登录，清除用户信息
+    case "APP.onLogout": // Logout，清除用户信息
       return onLogout(state, action);
     case "APP.setUserInfo": // 设置用户信息，登录成功时、同步sessionStorage中的用户信息时 触发
       return setUserInfo(state, action);

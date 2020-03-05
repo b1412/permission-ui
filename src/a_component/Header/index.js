@@ -68,7 +68,7 @@ export default class Com extends React.PureComponent {
   };
 
   /**
-   * 退出登录
+   * Logout
    * **/
   onMenuClick = e => {
     if (e.key === "logout") {
@@ -143,7 +143,7 @@ export default class Com extends React.PureComponent {
                   <Menu.Divider />
                   <Menu.Item key="logout">
                     <Icon type="logout" />
-                    退出登录
+                    Logout
                   </Menu.Item>
                 </Menu>
               }
@@ -170,7 +170,7 @@ export default class Com extends React.PureComponent {
 Com.propTypes = {
   onToggle: P.func, // 菜单收起与展开状态切换
   collapsed: P.bool, // 菜单的状态
-  onLogout: P.func, // 退出登录
+  onLogout: P.func, // Logout
   userinfo: P.object, // 用户信息
   popLoading: P.bool // 消息弹窗是否正在加载数据
 };

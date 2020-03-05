@@ -21,19 +21,6 @@ export const getMenus = (params = {}) => async dispatch => {
     message.error("network error, please try again");
   }
 };
-
-
-export const getRoles = (params = {}) => async () => {
-  try {
-    return await Fetchapi.get(
-      "v1/role?embedded=rolePermissions,rolePermissions.permission",
-      params
-    );
-  } catch (err) {
-    message.error("network error, please try again");
-  }
-};
-
 export const getRoleById = (params = {}) => async () => {
   try {
     return await Fetchapi.get(

@@ -178,7 +178,7 @@ export default class CrudPage extends React.Component {
               values
             )
             .then(res => {
-              if (res.status === 200) {
+              if (res.status === 204) {
                 message.success("Success");
                 this.onGetData();
                 this.onClose();
