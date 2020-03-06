@@ -70,7 +70,6 @@ export default class RoleAdminContainer extends React.Component {
     });
   }
 
-  // 菜单树确定 给角色分配菜单
   onMenuTreeOk(arr) {
     const params = {
       menus: arr.menus,
@@ -88,10 +87,8 @@ export default class RoleAdminContainer extends React.Component {
       };
     });
 
-    let role = {
-      rolePermissions: rolePermissions
-    };
-
+    let role = this.state.nowData;
+    role.rolePermissions = rolePermissions;
     this.props.actions
       .callAPI("put", `v1/role/${this.state.nowData.id}`, role)
       .then(res => {
@@ -118,18 +115,28 @@ export default class RoleAdminContainer extends React.Component {
 
   /** 分配权限按钮点击，权限控件出现 **/
   onAllotPowerClick(record) {
-    console.log(record);
-    const { actions } = this.props;
-    actions.getMenus().then(res => {
+    this.load(record).then(res => {
+      console.log(res);
       const menus = [];
-      const powers = [];
+      const powers = res.powers;
       this.setState({
-        powerTreeData: res.data,
+        powerTreeData: res.powerTreeData,
         nowData: record,
         powerTreeShow: true,
         powerTreeDefault: { menus, powers }
       });
     });
+  }
+  async load(record) {
+    const { actions } = this.props;
+    let menus = await actions.getMenus();
+    let powerTreeData = menus.data;
+    let role = await actions.getRoleById({ id: record.id });
+    console.log(role);
+    let powers = role.data.rolePermissions
+      .map(it => it.permission.id)
+      .reduce((a, b) => [...a, b], []);
+    return { powerTreeData, powers };
   }
 
   render() {
