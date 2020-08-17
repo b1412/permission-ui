@@ -55,5 +55,6 @@ if (env === "production") {
 }
 /** 启动服务 **/
 app.listen(PORT, () => {
-  console.log("本地服务启动地址: http://dev.domain.com");
+  console.log("Local port "+ PORT)
+  console.log("http://dev.domain.com");
 });

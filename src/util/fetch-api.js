@@ -1,4 +1,4 @@
-import { apiBaseUrl, baseUrl } from "../config";
+import { apiBaseUrl } from "../config";
 import axios from "axios";
 
 export default class ApiService {
